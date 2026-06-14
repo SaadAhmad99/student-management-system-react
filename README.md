@@ -124,17 +124,7 @@ This project was created to practice:
 - CRUD Operations
 - Component Reusability
 
-## Upcoming Features
 
-- Student Table Layout
-- Passed/Failed Filters
-- Improved UI Design
-- Responsive Layout
-- Dark Mode
-- API Integration
-- Custom Hooks
-- Backend Integration
-- Authentication
 
 ## Author
 
