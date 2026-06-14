@@ -1,4 +1,4 @@
-function Dashboard({students}) {
+function Dashboard({ students }) {
     const totalStudents = students.length;
     const averageMarks = totalStudents > 0 ? (students.reduce((sum, student) => sum + student.marks, 0) / totalStudents).toFixed(2) : 0;
 
@@ -10,15 +10,44 @@ function Dashboard({students}) {
 
     return (
         <div>
-            <h2> Dashboard </h2>
-            <p> Total Students: {totalStudents} </p>
-            <p> Average Marks: {averageMarks} </p>
-            <p> Highest Marks: {highestMarks} </p>
-            <p> Lowest Marks: {lowestMarks} </p>
-            <p> Passed Students: {passedStudents} </p>
-            <p> Failed Students: {failedStudents} </p>
+            <h2>Dashboard</h2>
+
+            <div className="dashboard">
+
+                <div className="card">
+                    <h3>Total Students</h3>
+                    <p>{totalStudents}</p>
+                </div>
+
+                <div className="card">
+                    <h3>Average Marks</h3>
+                    <p>{averageMarks}</p>
+                </div>
+
+                <div className="card">
+                    <h3>Highest Marks</h3>
+                    <p>{highestMarks}</p>
+                </div>
+
+                <div className="card">
+                    <h3>Lowest Marks</h3>
+                    <p>{lowestMarks}</p>
+                </div>
+
+                <div className="card">
+                    <h3>Passed Students</h3>
+                    <p>{passedStudents}</p>
+                </div>
+
+                <div className="card">
+                    <h3>Failed Students</h3>
+                    <p>{failedStudents}</p>
+                </div>
+
+            </div>
+
             <hr />
         </div>
-    );      
+    );
 }
 export default Dashboard;

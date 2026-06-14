@@ -1,7 +1,7 @@
 function SortStudents({ setSortType }) {
   return (
     <div>
-
+        <h2>Sort Students</h2>
       <button
         onClick={() => setSortType("name")}
       >
@@ -13,8 +13,6 @@ function SortStudents({ setSortType }) {
       >
         Sort By Marks
       </button>
-
-      <hr />
 
     </div>
   );

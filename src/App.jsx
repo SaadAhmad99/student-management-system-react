@@ -5,6 +5,7 @@ import StudentList from "./Components/StudentList";
 import EditStudent from "./Components/EditStudent";
 import Dashboard from './Components/Dashboard';
 import SortStudents from "./Components/SortStudents";
+import './App.css';
 
 function App() {
 
@@ -115,7 +116,7 @@ function App() {
 
   return (
 
-    <div>
+    <div className="App">
       <h1> Student Management System</h1>
       <hr />
 
