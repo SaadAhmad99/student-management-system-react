@@ -116,6 +116,7 @@ This project was created to practice:
 - useEffect Hook
 - Local Storage
 - Array Methods
+- use Styling
 
   - map()
   - filter()
