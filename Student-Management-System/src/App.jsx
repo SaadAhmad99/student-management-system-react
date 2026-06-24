@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
+import axios from "axios";
 import AddStudent from "./Components/AddStudent";
 import SearchStudent from "./Components/SearchStudent";
 import StudentList from "./Components/StudentList";
 import EditStudent from "./Components/EditStudent";
 import Dashboard from './Components/Dashboard';
 import SortStudents from "./Components/SortStudents";
+import './App.css';
 
 function App() {
 
   const [sortType, setSortType] = useState("name");
-  const [students, setStudents] = useState(() => {
-    const savedStudents = localStorage.getItem("students");
-    return savedStudents ? JSON.parse(savedStudents) : [];
-  });
+  const [students,setStudents]= useState([]);
+
   const [name, setName] = useState("");
   const [marks, setMarks] = useState("");
   const [rollNo, setRollNo] = useState("");
@@ -23,8 +23,19 @@ function App() {
   const [editedRollNo, setEditedRollNo] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("students", JSON.stringify(students));
-  }, [students]);
+
+  axios
+    .get("http://localhost:5000/students")
+    .then((response) => {
+      setStudents(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+}, []);
+
+// Add Student Function
 
   function addStudent() {
     if (rollNo.trim() === "" || name.trim() === "" || marks.trim() === "" || isNaN(marks)) {
@@ -45,16 +56,43 @@ function App() {
       return;
     }
 
-    setStudents([...students, newStudent]);
+  axios
+  .post("http://localhost:5000/students", newStudent)
+  .then((response) => {
+
+    setStudents([...students, response.data.student]);
+
     setName("");
     setMarks("");
     setRollNo("");
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
   }
 
+// Delete Student Function
+
   function deleteStudent(id) {
-    const updateStudents = students.filter((student) => student.id !== id);
-    setStudents(updateStudents);
-  }
+
+  axios
+    .delete(`http://localhost:5000/students/${id}`)
+    .then(() => {
+      const updatedStudents = students.filter(
+        (student) => student.id !== id
+      );
+      setStudents(updatedStudents);
+
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+}
+
+// Edit Student Function
 
   function editStudent(student) {
     setEditingId(student.id);
@@ -63,9 +101,11 @@ function App() {
     setEditedRollNo(student.rollNo);
   }
 
+// Save Edit Student Function
+
   function saveEditedStudent() {
 
-    if (
+  if (
       editedRollNo.trim() === "" ||
       editedName.trim() === "" ||
       editedMarks.trim() === "" ||
@@ -75,18 +115,36 @@ function App() {
       return;
     }
 
+  axios
+  .put(`http://localhost:5000/students/${editingId}`, {
+    rollNo: editedRollNo,
+    name: editedName,
+    marks: Number(editedMarks)
+  })
+  .then((response) => {
+
     const updatedStudents = students.map((student) => {
       if (student.id === editingId) {
-        return { ...student, rollNo: editedRollNo, name: editedName, marks: Number(editedMarks) };
+        return response.data.student;
       }
       return student;
     });
+
     setStudents(updatedStudents);
+
     setEditingId(null);
     setEditedName("");
     setEditedMarks("");
     setEditedRollNo("");
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
   }
+
+//Cancel Edit Function
 
   function cancelEdit() {
     setEditingId(null);
@@ -115,7 +173,7 @@ function App() {
 
   return (
 
-    <div>
+    <div className="App">
       <h1> Student Management System</h1>
       <hr />
 
